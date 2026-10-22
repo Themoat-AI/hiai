@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HIAI — Autonomous Synthetic Intelligence Grid</title>
+    <meta
+      name="description"
+      content="Advanced HIAI corporate AI lab dashboard with four autonomous models, VM orchestration, and a 3D digital headquarters."
+    />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand-wrap">
+          <div class="brand-mark">H</div>
+          <div>
+            <p class="eyebrow">HIAI / Autonomous Systems</p>
+            <h1>Sentient Compute Grid</h1>
+          </div>
+        </div>
+
+        <nav class="mode-switch" aria-label="Operational mode selector">
+          <button class="mode-btn active" data-mode="Autonomy">Autonomy</button>
+          <button class="mode-btn" data-mode="Research">Research</button>
+          <button class="mode-btn" data-mode="Security">Security</button>
+          <button class="mode-btn" data-mode="Simulation">Simulation</button>
+        </nav>
+
+        <div class="top-actions">
+          <button id="train-all" class="primary-btn">Launch full training</button>
+          <button id="scale-up" class="secondary-btn">Expand compute</button>
+        </div>
+      </header>
+
+      <main class="main-grid">
+        <aside class="panel left-panel">
+          <div class="section-header">
+            <span class="section-kicker">Fleet</span>
+            <h2>Autonomous Model Matrix</h2>
+          </div>
+          <div id="modelList" class="model-list" aria-live="polite"></div>
+        </aside>
+
+        <section class="panel center-panel">
+          <div class="city-header">
+            <div>
+              <span class="section-kicker">HQ</span>
+              <h2>Corporate Intelligence Campus</h2>
+            </div>
+            <div class="city-badges">
+              <span class="badge success">4 live models</span>
+              <span class="badge neutral">Quantum VM fabric</span>
+            </div>
+          </div>
+
+          <div id="cityCanvas" aria-label="Interactive 3D corporate building visualization"></div>
+
+          <div class="mission-panel">
+            <div class="mission-row">
+              <span>Mission objective</span>
+              <strong id="missionLabel">Adaptive cognition</strong>
+            </div>
+            <div class="mission-row">
+              <span>Active protocol</span>
+              <strong id="protocolLabel">SYNTHETIC-9</strong>
+            </div>
+          </div>
+
+          <div class="chat-panel">
+            <div class="chat-header">
+              <div>
+                <span class="section-kicker">AI</span>
+                <h2>Chat + Talk</h2>
+              </div>
+              <button id="voiceToggle" class="voice-btn" type="button" aria-label="Toggle voice input">
+                🎙️ Talk
+              </button>
+            </div>
+
+            <div id="chatMessages" class="chat-messages" aria-live="polite"></div>
+
+            <form id="chatForm" class="chat-form">
+              <input
+                id="chatInput"
+                type="text"
+                placeholder="Ask HIAI something..."
+                aria-label="Type your message to the AI"
+              />
+              <button id="chatSend" class="primary-btn chat-send" type="submit">Send</button>
+            </form>
+          </div>
+        </section>
+
+        <aside class="panel right-panel">
+          <div class="section-header">
+            <span class="section-kicker">Ops</span>
+            <h2>Command Console</h2>
+          </div>
+
+          <div class="metric-grid">
+            <div class="metric-card">
+              <span>VM nodes</span>
+              <strong id="vmNodes">24</strong>
+            </div>
+            <div class="metric-card">
+              <span>Throughput</span>
+              <strong id="throughput">96%</strong>
+            </div>
+            <div class="metric-card">
+              <span>Accuracy</span>
+              <strong id="accuracy">94.7%</strong>
+            </div>
+            <div class="metric-card">
+              <span>Energy</span>
+              <strong id="energy">42 kWh</strong>
+            </div>
+          </div>
+
+          <div class="chart-wrap">
+            <div class="chart-head">
+              <span>Resource load</span>
+              <span id="loadValue">76%</span>
+            </div>
+            <div class="bars" aria-label="Resource usage bars">
+              <span style="--level: 73%"></span>
+              <span style="--level: 82%"></span>
+              <span style="--level: 69%"></span>
+              <span style="--level: 92%"></span>
+              <span style="--level: 74%"></span>
+              <span style="--level: 88%"></span>
+              <span style="--level: 80%"></span>
+            </div>
+          </div>
+
+          <div class="status-panel">
+            <div class="status-row">
+              <span>Cluster health</span>
+              <strong class="good">Nominal</strong>
+            </div>
+            <div class="status-row">
+              <span>Training loop</span>
+              <strong id="loopState">Optimizing</strong>
+            </div>
+            <div class="status-row">
+              <span>Sync mesh</span>
+              <strong class="good">Stable</strong>
+            </div>
+          </div>
+
+          <div class="log-panel">
+            <div class="log-header">Live operations feed</div>
+            <ul id="eventFeed" class="event-feed"></ul>
+          </div>
+        </aside>
+      </main>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

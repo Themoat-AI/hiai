@@ -1,0 +1,80 @@
+api/chat.js
+import OpenAI from 'openai';
+
+const localReply = (message) => {
+  const value = String(message || '').trim();
+  const lower = value.toLowerCase();
+
+  if (!value) {
+    return 'Please ask a real question and I will respond.';
+  }
+
+  if (lower.includes('hello') || lower.includes('hi')) {
+    return 'Hello. The HIAI system is online and ready to help.';
+  }
+
+  if (lower.includes('status') || lower.includes('health')) {
+    return 'All core systems are stable. The model fabric is running with strong throughput and nominal safety conditions.';
+  }
+
+  if (lower.includes('research')) {
+    return 'Research mode is focused on experimentation, model exploration, and rapid learning loops.';
+  }
+
+  if (lower.includes('security')) {
+    return 'Security mode activates stronger monitoring, adversarial simulation, and verified safety gates.';
+  }
+
+  if (lower.includes('talk') || lower.includes('voice')) {
+    return 'You can speak to the interface with the microphone button and the app will convert your words into chat input.';
+  }
+
+  if (lower.includes('what') && lower.includes('this')) {
+    return 'This is a synthetic AI operations dashboard for a fleet of autonomous models. It simulates a computing grid and digital campus.';
+  }
+
+  return 'I am active and monitoring the compute fabric. The platform is synchronized, and the current mission remains stable.';
+};
+
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  try {
+    const { message } = await req.json();
+    const text = typeof message === 'string' ? message.trim() : '';
+
+    if (!text) {
+      return res.status(400).json({ reply: 'Please send a message to the AI.' });
+    }
+
+    const apiKey = process.env.OPENAI_API_KEY;
+
+    if (!apiKey) {
+      return res.status(200).json({ reply: localReply(text) });
+    }
+
+    const client = new OpenAI({ apiKey });
+    const completion = await client.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        {
+          role: 'system',
+          content:
+            'You are HIAI, a helpful AI operator for a futuristic autonomous compute platform. Respond clearly, concisely, and confidently.'
+        },
+        { role: 'user', content: text }
+      ],
+      temperature: 0.7
+    });
+
+    const reply = completion.choices?.[0]?.message?.content?.trim();
+    return res.status(200).json({ reply: reply || localReply(text) });
+  } catch (error) {
+    return res.status(200).json({ reply: localReply(req.body?.message || '') });
+  }
+}
+
+
+
