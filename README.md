@@ -1,12 +1,14 @@
-# HIAI Virtual Model Factory
+# HIAI — Advanced Autonomous Model Grid
 
-A working browser-based prototype for a corporate AI model factory. It includes:
+A next-generation browser prototype for an autonomous AI manufacturing and compute platform.
 
-- 4 AI model cards
-- virtual machine training simulation
-- a dark corporate command center UI
-- a 3D building visualization built with Three.js
-- local browser controls to train and scale the fleet
+Features:
+- Four autonomous AI model nodes with live micro-status simulation
+- Corporate intelligence campus dashboard styling
+- 3D headquarters built with Three.js and orbit camera controls
+- Dynamic operational mode switching
+- Live event feed and system metrics
+- Enterprise-grade glassmorphism UI for a premium AI lab feel
 
 ## Run locally
 
@@ -14,12 +16,12 @@ A working browser-based prototype for a corporate AI model factory. It includes:
    npm install
 2. Start the app:
    npm run dev
-3. Open the local Vite URL in your browser.
+3. Open the local Vite URL shown in the terminal
 
-## Build for production
+## Production build
 
 npm run build
 
-## Notes
+## Note
 
-This is a front-end prototype and simulation. It is intentionally designed to run in the browser without a backend or real VM orchestration. It gives you a working demo of the concept you described.
+This is a polished front-end prototype and simulation for the concept: a corporation using virtual machines to run AI models, with a 3D digital HQ and multi-model orchestration.

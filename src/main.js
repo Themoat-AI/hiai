@@ -1,66 +1,107 @@
 import './style.css';
 import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 const models = [
   {
     id: 'Axiom-01',
     vm: 'VM-A1',
-    type: 'Language',
+    type: 'Cognitive Language',
     status: 'Training',
-    progress: 84,
-    accuracy: 96.8,
-    load: 76,
-    power: '1.4kW',
-    tasks: 'Reasoning'
+    progress: 88,
+    accuracy: 97.4,
+    load: 78,
+    power: '1.8kW',
+    tasks: 'Reasoning',
+    risk: 'Adaptive'
   },
   {
     id: 'Nova-02',
     vm: 'VM-B2',
-    type: 'Vision',
+    type: 'Vision Intelligence',
     status: 'Optimizing',
-    progress: 69,
-    accuracy: 94.2,
-    load: 64,
-    power: '1.1kW',
-    tasks: 'Object detection'
+    progress: 73,
+    accuracy: 95.2,
+    load: 66,
+    power: '1.5kW',
+    tasks: 'Perception',
+    risk: 'Low'
   },
   {
     id: 'Sigma-03',
     vm: 'VM-C3',
-    type: 'Forecast',
+    type: 'Predictive Forecast',
     status: 'Training',
-    progress: 91,
-    accuracy: 97.5,
-    load: 81,
-    power: '1.6kW',
-    tasks: 'Prediction'
+    progress: 95,
+    accuracy: 98.1,
+    load: 84,
+    power: '2.1kW',
+    tasks: 'Forecasting',
+    risk: 'High scale'
   },
   {
     id: 'Apex-04',
     vm: 'VM-D4',
-    type: 'Agentic',
+    type: 'Autonomous Agent',
     status: 'Queued',
-    progress: 48,
-    accuracy: 92.1,
-    load: 52,
-    power: '1.2kW',
-    tasks: 'Automation'
+    progress: 52,
+    accuracy: 93.8,
+    load: 55,
+    power: '1.6kW',
+    tasks: 'Automation',
+    risk: 'Balanced'
   }
 ];
+
+const state = {
+  mode: 'Autonomy',
+  logIndex: 0,
+  eventLog: [
+    'Quantum mesh synchronization complete.',
+    'Inference routing optimized across four cores.',
+    'Adaptive prompt fine-tuning active.',
+    'Safety envelope refreshed for live model stack.'
+  ]
+};
 
 const modelList = document.getElementById('modelList');
 const trainAllButton = document.getElementById('train-all');
 const scaleUpButton = document.getElementById('scale-up');
 const loopState = document.getElementById('loopState');
+const eventFeed = document.getElementById('eventFeed');
+const missionLabel = document.getElementById('missionLabel');
+const protocolLabel = document.getElementById('protocolLabel');
+
+const missionMap = {
+  Autonomy: ['Adaptive cognition', 'SYNTHETIC-9'],
+  Research: ['Deep experimentation', 'R&D MATRIX-4'],
+  Security: ['Threat simulation', 'SHIELD-LAYER-11'],
+  Simulation: ['Scenario emulation', 'DIGITAL-ORBIT-3']
+};
+
+const renderEventFeed = () => {
+  eventFeed.innerHTML = state.eventLog
+    .slice(0, 5)
+    .map(
+      (event) => `
+        <li>
+          <span class="dot"></span>
+          <span>${event}</span>
+        </li>
+      `
+    )
+    .join('');
+};
 
 const updateMetricSummary = () => {
   const avgAccuracy = models.reduce((sum, model) => sum + model.accuracy, 0) / models.length;
   const avgLoad = models.reduce((sum, model) => sum + model.load, 0) / models.length;
 
-  document.getElementById('throughput').textContent = `${Math.min(99, Math.round(84 + avgAccuracy / 4))}%`;
+  document.getElementById('throughput').textContent = `${Math.min(99, Math.round(86 + avgAccuracy / 7))}%`;
   document.getElementById('accuracy').textContent = `${avgAccuracy.toFixed(1)}%`;
-  document.getElementById('energy').textContent = `${Math.round(32 + avgLoad * 0.18)} kWh`;
+  document.getElementById('energy').textContent = `${Math.round(26 + avgLoad * 0.28)} kWh`;
   document.getElementById('loadValue').textContent = `${Math.round(avgLoad)}%`;
+  document.getElementById('vmNodes').textContent = `${18 + Math.round(avgLoad / 8)}`;
 };
 
 const renderModels = () => {
@@ -78,7 +119,7 @@ const renderModels = () => {
 
           <div class="model-meta">
             <span>${model.vm}</span>
-            <span>${model.power}</span>
+            <span>${model.risk}</span>
           </div>
 
           <div class="progress-block">
@@ -103,30 +144,39 @@ const renderModels = () => {
   updateMetricSummary();
 };
 
+const pushLog = (message) => {
+  state.eventLog.unshift(message);
+  state.eventLog = state.eventLog.slice(0, 5);
+  renderEventFeed();
+};
+
 const advanceTraining = () => {
   models.forEach((model) => {
     if (model.status === 'Queued') {
       model.status = 'Training';
+      pushLog(`${model.id} has entered the active training mesh.`);
     }
 
     if (model.status === 'Training') {
-      model.progress = Math.min(100, model.progress + Math.random() * 6 + 2);
-      model.accuracy = Math.min(99.9, model.accuracy + Math.random() * 0.7);
-      model.load = Math.min(96, model.load + Math.random() * 4);
+      model.progress = Math.min(100, model.progress + Math.random() * 6 + 1.5);
+      model.accuracy = Math.min(99.9, model.accuracy + Math.random() * 0.8);
+      model.load = Math.min(96, model.load + Math.random() * 4.5);
 
       if (model.progress >= 100) {
         model.status = 'Complete';
-        model.accuracy = Math.max(model.accuracy, 99.1);
+        model.accuracy = Math.max(model.accuracy, 99.2);
+        pushLog(`${model.id} reached stable convergence.`);
       }
     }
 
     if (model.status === 'Complete') {
-      model.load = Math.max(65, model.load - 0.8);
+      model.load = Math.max(62, model.load - 0.8);
     }
 
     if (model.status === 'Optimizing') {
-      model.progress = Math.min(100, model.progress + Math.random() * 4);
-      model.accuracy = Math.min(99.5, model.accuracy + Math.random() * 0.4);
+      model.progress = Math.min(100, model.progress + Math.random() * 4.2);
+      model.accuracy = Math.min(99.8, model.accuracy + Math.random() * 0.5);
+      model.load = Math.min(94, model.load + Math.random() * 3.2);
     }
   });
 
@@ -141,6 +191,7 @@ trainAllButton.addEventListener('click', () => {
   });
 
   loopState.textContent = 'Training';
+  pushLog('All model nodes engaged in synchronized training wave.');
   renderModels();
 });
 
@@ -151,7 +202,22 @@ scaleUpButton.addEventListener('click', () => {
   });
 
   loopState.textContent = 'Scaling';
+  pushLog('Compute fabric expanded with additional virtualization layers.');
   renderModels();
+});
+
+document.querySelectorAll('.mode-btn').forEach((button) => {
+  button.addEventListener('click', () => {
+    document.querySelectorAll('.mode-btn').forEach((btn) => btn.classList.remove('active'));
+    button.classList.add('active');
+
+    state.mode = button.dataset.mode;
+    const [mission, protocol] = missionMap[state.mode];
+    missionLabel.textContent = mission;
+    protocolLabel.textContent = protocol;
+
+    pushLog(`Protocol switched to ${state.mode.toUpperCase()} mode.`);
+  });
 });
 
 setInterval(() => {
@@ -161,97 +227,132 @@ setInterval(() => {
 }, 1800);
 
 renderModels();
+renderEventFeed();
 
 const buildCity = () => {
   const cityRoot = document.getElementById('cityCanvas');
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x07131d);
-  scene.fog = new THREE.Fog(0x07131d, 16, 34);
+  scene.background = new THREE.Color(0x050d14);
+  scene.fog = new THREE.Fog(0x050d14, 18, 40);
 
-  const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 1000);
-  camera.position.set(0, 7, 20);
+  const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 200);
+  camera.position.set(0, 8, 24);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setSize(cityRoot.clientWidth, cityRoot.clientHeight);
   cityRoot.appendChild(renderer.domElement);
 
-  const ambient = new THREE.AmbientLight(0x8fbaff, 1.5);
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.enablePan = false;
+  controls.minDistance = 14;
+  controls.maxDistance = 32;
+  controls.autoRotate = true;
+  controls.autoRotateSpeed = 0.8;
+
+  const ambient = new THREE.AmbientLight(0x9ac7ff, 1.6);
   scene.add(ambient);
 
-  const keyLight = new THREE.DirectionalLight(0x8ae8ff, 1.7);
-  keyLight.position.set(10, 20, 8);
+  const keyLight = new THREE.DirectionalLight(0x7fe6ff, 2.4);
+  keyLight.position.set(8, 18, 10);
   scene.add(keyLight);
 
-  const rimLight = new THREE.PointLight(0x7dd7ff, 26, 35, 2);
-  rimLight.position.set(-10, 6, 15);
+  const rimLight = new THREE.PointLight(0x8cb9ff, 30, 60, 2.2);
+  rimLight.position.set(-10, 10, 15);
   scene.add(rimLight);
 
-  const building = new THREE.Group();
-  scene.add(building);
+  const campus = new THREE.Group();
+  scene.add(campus);
 
-  const floorMaterial = new THREE.MeshStandardMaterial({
-    color: 0x9ec6ff,
-    emissive: 0x102337,
-    roughness: 0.5,
-    metalness: 0.7
+  const podiumMaterial = new THREE.MeshStandardMaterial({
+    color: 0x8fa5d3,
+    emissive: 0x0c1d2d,
+    metalness: 0.8,
+    roughness: 0.35
+  });
+
+  const towerMaterial = new THREE.MeshStandardMaterial({
+    color: 0x8fe4ff,
+    emissive: 0x102b49,
+    metalness: 0.7,
+    roughness: 0.25
   });
 
   const glassMaterial = new THREE.MeshStandardMaterial({
-    color: 0x7fc8ff,
-    emissive: 0x1a3f5a,
+    color: 0x7cc7ff,
+    emissive: 0x142b46,
     transparent: true,
-    opacity: 0.8,
-    roughness: 0.2,
-    metalness: 0.9
+    opacity: 0.72,
+    metalness: 0.9,
+    roughness: 0.18
   });
 
-  for (let i = 0; i < 8; i += 1) {
-    const floor = new THREE.Mesh(new THREE.BoxGeometry(9, 1.2, 7), floorMaterial);
-    floor.position.y = i * 1.6;
-    building.add(floor);
+  const podium = new THREE.Mesh(new THREE.BoxGeometry(14, 1.2, 10), podiumMaterial);
+  podium.position.y = -0.8;
+  campus.add(podium);
 
-    const windowPanel = new THREE.Mesh(new THREE.BoxGeometry(7.2, 0.4, 5.8), glassMaterial);
-    windowPanel.position.set(0, floor.position.y + 0.2, 0);
-    building.add(windowPanel);
-  }
+  const towerOffsets = [-5.2, -2.1, 1.5, 4.8];
+  towerOffsets.forEach((x, index) => {
+    const tower = new THREE.Mesh(new THREE.BoxGeometry(2.4, 8 + index * 1.5, 2.4), towerMaterial);
+    tower.position.set(x, 3.2 + index * 0.9, index % 2 === 0 ? -2.1 : 2.1);
+    campus.add(tower);
 
-  const core = new THREE.Mesh(new THREE.BoxGeometry(2.2, 11.5, 2.2), new THREE.MeshStandardMaterial({ color: 0x7ad9ff, emissive: 0x16394f, metalness: 0.8, roughness: 0.2 }));
-  core.position.y = 5.7;
-  building.add(core);
+    const face = new THREE.Mesh(new THREE.BoxGeometry(1.8, 4.8 + index, 1.8), glassMaterial);
+    face.position.set(x, tower.position.y + 0.3, tower.position.z);
+    campus.add(face);
+  });
 
-  const podium = new THREE.Mesh(new THREE.BoxGeometry(12, 1.2, 9), new THREE.MeshStandardMaterial({ color: 0x93a7d8, metalness: 0.65, roughness: 0.38 }));
-  podium.position.y = -0.7;
-  building.add(podium);
+  const centerCore = new THREE.Mesh(
+    new THREE.BoxGeometry(2.8, 12.5, 2.8),
+    new THREE.MeshStandardMaterial({ color: 0x79e6ff, emissive: 0x1b4667, metalness: 0.85, roughness: 0.2 })
+  );
+  centerCore.position.y = 5.8;
+  campus.add(centerCore);
 
   const ring = new THREE.Mesh(
-    new THREE.TorusGeometry(7.9, 0.14, 16, 80),
-    new THREE.MeshStandardMaterial({ color: 0x51d7ef, emissive: 0x103847, metalness: 0.8, roughness: 0.15 })
+    new THREE.TorusGeometry(8, 0.14, 18, 120),
+    new THREE.MeshStandardMaterial({ color: 0x6fd8ff, emissive: 0x1a4161, metalness: 0.8, roughness: 0.15 })
   );
   ring.rotation.x = Math.PI / 2;
-  ring.position.y = 0.3;
-  building.add(ring);
+  ring.position.y = 0.7;
+  campus.add(ring);
 
   const ground = new THREE.Mesh(
-    new THREE.CylinderGeometry(16, 18, 1.3, 40),
-    new THREE.MeshStandardMaterial({ color: 0x0f2031, roughness: 0.9, metalness: 0.2 })
+    new THREE.CylinderGeometry(17, 19, 1.5, 48),
+    new THREE.MeshStandardMaterial({ color: 0x0d1f2c, roughness: 0.92, metalness: 0.18 })
   );
-  ground.position.y = -1.5;
+  ground.position.y = -1.9;
   scene.add(ground);
 
   const starGeometry = new THREE.BufferGeometry();
-  const starCount = 200;
-  const starPositions = new Float32Array(starCount * 3);
+  const starCount = 220;
+  const positions = new Float32Array(starCount * 3);
 
   for (let i = 0; i < starCount * 3; i += 3) {
-    starPositions[i] = (Math.random() - 0.5) * 40;
-    starPositions[i + 1] = Math.random() * 20;
-    starPositions[i + 2] = (Math.random() - 0.5) * 40;
+    positions[i] = (Math.random() - 0.5) * 40;
+    positions[i + 1] = Math.random() * 24 + 2;
+    positions[i + 2] = (Math.random() - 0.5) * 40;
   }
 
-  starGeometry.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
-  const stars = new THREE.Points(starGeometry, new THREE.PointsMaterial({ color: 0xb5ebff, size: 0.08 }));
+  starGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  const stars = new THREE.Points(
+    starGeometry,
+    new THREE.PointsMaterial({ color: 0xc0ebff, size: 0.09, transparent: true, opacity: 0.9 })
+  );
   scene.add(stars);
+
+  const orbitalNodes = [];
+  for (let i = 0; i < 8; i += 1) {
+    const mesh = new THREE.Mesh(
+      new THREE.SphereGeometry(0.3, 18, 18),
+      new THREE.MeshStandardMaterial({ color: i % 2 === 0 ? 0x7fe6ff : 0xa8b8ff, emissive: 0x1f3d59 })
+    );
+    const angle = (i / 8) * Math.PI * 2;
+    mesh.position.set(Math.cos(angle) * 10, 6 + Math.sin(angle * 2.4) * 3, Math.sin(angle) * 10);
+    campus.add(mesh);
+    orbitalNodes.push({ mesh, angle, radius: 10 });
+  }
 
   const resize = () => {
     const { clientWidth, clientHeight } = cityRoot;
@@ -268,15 +369,21 @@ const buildCity = () => {
   const animate = () => {
     const t = clock.getElapsedTime();
 
-    building.rotation.y = t * 0.35;
-    ring.rotation.z = t * 0.75;
-    core.rotation.y = t * 0.9;
-    camera.position.x = Math.sin(t * 0.5) * 2.3;
-    camera.position.y = 8 + Math.sin(t * 1.1) * 0.7;
-    camera.lookAt(0, 5, 0);
-
+    campus.rotation.y = t * 0.22;
+    ring.rotation.z = t * 0.8;
+    centerCore.rotation.y = t * 0.9;
+    rimLight.intensity = 26 + Math.sin(t * 2.3) * 8;
     stars.rotation.y = t * 0.08;
-    rimLight.intensity = 18 + Math.sin(t * 2) * 8;
+
+    orbitalNodes.forEach((node, index) => {
+      const offset = t * (0.5 + index * 0.08);
+      node.mesh.position.x = Math.cos(node.angle + offset) * node.radius;
+      node.mesh.position.z = Math.sin(node.angle + offset) * node.radius;
+      node.mesh.position.y = 6 + Math.sin(offset * 2.2 + index) * 3;
+      node.mesh.scale.setScalar(1 + Math.sin(offset * 4) * 0.25);
+    });
+
+    controls.update();
     renderer.render(scene, camera);
     requestAnimationFrame(animate);
   };
