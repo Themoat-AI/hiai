@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HIAI Virtual Model Factory</title>
+    <meta
+      name="description"
+      content="HIAI virtual model factory dashboard with a corporate headquarters and four AI models running in VM clusters."
+    />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand-wrap">
+          <div class="brand-mark">H</div>
+          <div>
+            <p class="eyebrow">HIAI / Model Operations</p>
+            <h1>Virtual Model Factory</h1>
+          </div>
+        </div>
+
+        <div class="top-actions">
+          <button id="train-all" class="primary-btn">Train all VM clusters</button>
+          <button id="scale-up" class="secondary-btn">Scale compute</button>
+        </div>
+      </header>
+
+      <main class="main-grid">
+        <aside class="panel left-panel">
+          <div class="section-header">
+            <span class="section-kicker">Fleet</span>
+            <h2>AI Model Cluster</h2>
+          </div>
+          <div id="modelList" class="model-list" aria-live="polite"></div>
+        </aside>
+
+        <section class="panel center-panel">
+          <div class="city-header">
+            <div>
+              <span class="section-kicker">HQ</span>
+              <h2>Corporate AI Campus</h2>
+            </div>
+            <div class="city-badges">
+              <span class="badge success">4 live models</span>
+              <span class="badge neutral">Cloud VM grid</span>
+            </div>
+          </div>
+          <div id="cityCanvas" aria-label="3D corporate building visualization"></div>
+        </section>
+
+        <aside class="panel right-panel">
+          <div class="section-header">
+            <span class="section-kicker">Ops</span>
+            <h2>Control Console</h2>
+          </div>
+
+          <div class="metric-grid">
+            <div class="metric-card">
+              <span>VM nodes</span>
+              <strong id="vmNodes">16</strong>
+            </div>
+            <div class="metric-card">
+              <span>Throughput</span>
+              <strong id="throughput">96%</strong>
+            </div>
+            <div class="metric-card">
+              <span>Accuracy</span>
+              <strong id="accuracy">92.4%</strong>
+            </div>
+            <div class="metric-card">
+              <span>Energy</span>
+              <strong id="energy">41 kWh</strong>
+            </div>
+          </div>
+
+          <div class="chart-wrap">
+            <div class="chart-head">
+              <span>Resource load</span>
+              <span id="loadValue">76%</span>
+            </div>
+            <div class="bars" aria-label="Resource usage bars">
+              <span style="--level: 78%"></span>
+              <span style="--level: 68%"></span>
+              <span style="--level: 84%"></span>
+              <span style="--level: 72%"></span>
+              <span style="--level: 90%"></span>
+              <span style="--level: 76%"></span>
+              <span style="--level: 88%"></span>
+            </div>
+          </div>
+
+          <div class="status-panel">
+            <div class="status-row">
+              <span>Cluster health</span>
+              <strong class="good">Stable</strong>
+            </div>
+            <div class="status-row">
+              <span>Training loop</span>
+              <strong id="loopState">Optimizing</strong>
+            </div>
+            <div class="status-row">
+              <span>Model sync</span>
+              <strong class="good">Synced</strong>
+            </div>
+          </div>
+        </aside>
+      </main>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
