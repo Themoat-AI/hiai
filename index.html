@@ -1,23 +1,109 @@
-package.json
-{
-  "name": "hiai-model-fleet",
-  "private": true,
-  "version": "1.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite --host 0.0.0.0",
-    "build": "vite build",
-    "preview": "vite preview --host 0.0.0.0"
-  },
-  "dependencies": {
-    "openai": "^4.67.3",
-    "three": "^0.166.1"
-  },
-  "devDependencies": {
-    "vite": "^5.4.10"
-  }
-}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="HIAI autonomous model grid dashboard" />
+    <title>HIAI</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand-wrap">
+          <div class="brand-mark">H</div>
+          <div>
+            <p class="eyebrow">Autonomous Model Grid</p>
+            <h1>HIAI</h1>
+          </div>
+        </div>
 
+        <div class="mode-switch" aria-label="operation mode switcher">
+          <button class="mode-btn active" data-mode="Autonomy" type="button">Autonomy</button>
+          <button class="mode-btn" data-mode="Research" type="button">Research</button>
+          <button class="mode-btn" data-mode="Security" type="button">Security</button>
+          <button class="mode-btn" data-mode="Simulation" type="button">Simulation</button>
+        </div>
 
+        <div class="top-actions">
+          <button id="train-all" class="primary-btn" type="button">Train all</button>
+          <button id="scale-up" class="secondary-btn" type="button">Scale up</button>
+        </div>
+      </header>
 
+      <main class="main-grid">
+        <aside class="panel left-panel">
+          <div class="section-header">
+            <p class="section-kicker">Fleet</p>
+            <h2>Model network</h2>
+          </div>
+          <div id="modelList" class="model-list" aria-live="polite"></div>
+        </aside>
 
+        <section class="panel center-panel">
+          <div class="city-header">
+            <div>
+              <p class="section-kicker">Infrastructure</p>
+              <h2>HQ / compute campus</h2>
+            </div>
+            <div class="city-badges">
+              <span class="badge success">Loop <strong id="loopState">Optimizing</strong></span>
+              <span class="badge neutral">Mission <strong id="missionLabel">Adaptive cognition</strong></span>
+              <span class="badge neutral">Protocol <strong id="protocolLabel">SYNTHETIC-9</strong></span>
+            </div>
+          </div>
+          <div id="cityCanvas" aria-label="3D compute campus visualization"></div>
+        </section>
+
+        <aside class="panel right-panel">
+          <div class="section-header">
+            <p class="section-kicker">Operations</p>
+            <h2>Live telemetry</h2>
+          </div>
+
+          <div class="metric-grid">
+            <div class="metric-card">
+              <span>Throughput</span>
+              <strong id="throughput">0%</strong>
+            </div>
+            <div class="metric-card">
+              <span>Accuracy</span>
+              <strong id="accuracy">0%</strong>
+            </div>
+            <div class="metric-card">
+              <span>Energy</span>
+              <strong id="energy">0 kWh</strong>
+            </div>
+            <div class="metric-card">
+              <span>Load</span>
+              <strong id="loadValue">0%</strong>
+            </div>
+          </div>
+
+          <div class="chart-wrap">
+            <div class="chart-head">
+              <span>Load profile</span>
+              <span id="vmNodes">0</span>
+            </div>
+            <div class="bars" aria-hidden="true">
+              <span style="--level: 42%;"></span>
+              <span style="--level: 58%;"></span>
+              <span style="--level: 71%;"></span>
+              <span style="--level: 88%;"></span>
+              <span style="--level: 66%;"></span>
+              <span style="--level: 80%;"></span>
+              <span style="--level: 90%;"></span>
+            </div>
+          </div>
+
+          <div class="log-panel">
+            <div class="log-header">Event feed</div>
+            <ul id="eventFeed" class="event-feed"></ul>
+          </div>
+        </aside>
+      </main>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
