@@ -1,0 +1,51 @@
+@media (max-width: 1180px) {
+  .main-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .panel {
+    border-right: none;
+    border-bottom: 1px solid var(--panel-border);
+  }
+
+  #cityCanvas {
+    height: 560px;
+  }
+}
+
+@media (max-width: 700px) {
+  body {
+    padding: 12px;
+  }
+
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .mode-switch,
+  .top-actions,
+  .share-actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .primary-btn,
+  .secondary-btn,
+  .mode-btn,
+  .voice-btn {
+    flex: 1 1 140px;
+  }
+
+  .metric-grid,
+  .mission-panel,
+  .field-row {
+    grid-template-columns: 1fr;
+  }
+
+  .chat-form {
+    flex-direction: column;
+  }
+}
+
