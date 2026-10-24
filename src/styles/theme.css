@@ -1,0 +1,52 @@
+:root {
+  --bg-0: #040b12;
+  --bg-1: #091824;
+  --panel: rgba(11, 20, 28, 0.78);
+  --panel-border: rgba(153, 221, 255, 0.16);
+  --steel: #dff5ff;
+  --muted: #8ea9c2;
+  --cyan: #67d9ff;
+  --blue: #7c9dff;
+  --green: #72ffcf;
+  --amber: #ffd36b;
+  --indigo: #8aaaff;
+  --bg-glow: rgba(92, 178, 255, 0.38);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  font-family: Inter, 'Segoe UI', sans-serif;
+  background:
+    radial-gradient(circle at top, rgba(69, 160, 255, 0.24), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(41, 133, 255, 0.2), transparent 30%),
+    linear-gradient(135deg, var(--bg-0), var(--bg-1) 40%, #0d1b29 100%);
+  color: var(--steel);
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+h1,
+h2,
+h3,
+p,
+ul {
+  margin: 0;
+}
